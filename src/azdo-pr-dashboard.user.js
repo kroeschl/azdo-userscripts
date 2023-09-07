@@ -1,7 +1,7 @@
 // ==UserScript==
 
 // @name         More Awesome Azure DevOps (userscript)
-// @version      3.7.3
+// @version      3.7.4
 // @author       Alejandro Barreto (NI)
 // @description  Makes general improvements to the Azure DevOps experience, particularly around pull requests. Also contains workflow improvements for NI engineers.
 // @license      MIT
@@ -1420,7 +1420,7 @@
     eus.onUrl(/\/(_pulls|pullrequests)/gi, (session, urlMatch) => {
       session.onEveryNew(document, '.repos-pr-section-card', section => {
         const sectionTitle = section.querySelector('.repos-pr-section-header-title > span').innerText;
-        if (sectionTitle !== 'Assigned to me' && sectionTitle !== 'Created by me') return;
+        if (!['Assigned to me', 'Created by me', 'Team PRs'].includes(sectionTitle)) return;
 
         session.onEveryNew(section, 'a[role="row"]', (row, addedDynamically) => {
           // AzDO re-adds PR rows when it updates them with in JS. That's the one we want to enhance.
